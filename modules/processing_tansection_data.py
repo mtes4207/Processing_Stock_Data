@@ -5,6 +5,12 @@ import csv
 from functools import partial
 
 
+RED = '#ffbfbf'
+BLUE = '#c3e3fa'
+GREEN = '#defac3'
+WHITE = '#ffffff'
+
+
 def repeat_change_block_color(v, k, color):
     if v in k.tolist():
         repeat = True
@@ -14,13 +20,13 @@ def repeat_change_block_color(v, k, color):
 
 def color_define(row):
     if row == 'Red':
-        color = '#ffbfbf'
+        color = RED
     elif row == 'Blue':
-        color = '#c3e3fa'
+        color = BLUE
     elif row == 'Green':
-        color = '#defac3'
+        color = GREEN
     else:
-        color = '#ffffff'
+        color = WHITE
 
     return 'background-color: %s'%color
 
@@ -109,9 +115,9 @@ class ProcessingTransectionData:
 
 
         save_path = os.path.join(output_path, "投信買賣%s.xlsx"%self.day_1st)
-        red_block = partial(repeat_change_block_color, k=self.df_fnbs_day_1st["證券名稱"], color="#ffbfbf")
-        blue_block = partial(repeat_change_block_color, k=self.df_credit_day_2nd["證券名稱"], color="#c3e3fa")
-        green_block = partial(repeat_change_block_color, k=self.sell_df_fnbs_day_1st["證券名稱"], color="#defac3")
+        red_block = partial(repeat_change_block_color, k=self.df_fnbs_day_1st["證券名稱"], color=RED)
+        blue_block = partial(repeat_change_block_color, k=self.df_credit_day_2nd["證券名稱"], color=BLUE)
+        green_block = partial(repeat_change_block_color, k=self.sell_df_fnbs_day_1st["證券名稱"], color=GREEN)
         credit_output_df.style.applymap(green_block, subset=["證券名稱"]).applymap(blue_block, subset=["證券名稱"]).applymap(red_block, subset=["證券名稱"]).applymap(color_define, subset=["Color"]).to_excel(save_path, index=False)
 
     # 外資
@@ -126,11 +132,10 @@ class ProcessingTransectionData:
                                             'Date : %s 外資買超 投信賣超'%self.day_1st]
 
         save_path = os.path.join(output_path, "外資買賣%s.xlsx"%self.day_1st)
-        red_block = partial(repeat_change_block_color, k=self.df_credit_day_1st["證券名稱"], color="#ffbfbf")
-        blue_block = partial(repeat_change_block_color, k=self.df_fnbs_day_2nd["證券名稱"], color="#c3e3fa")
-        green_block = partial(repeat_change_block_color, k=self.sell_df_credit_day_1st["證券名稱"], color="#defac3")
+        red_block = partial(repeat_change_block_color, k=self.df_credit_day_1st["證券名稱"], color=RED)
+        blue_block = partial(repeat_change_block_color, k=self.df_fnbs_day_2nd["證券名稱"], color=BLUE)
+        green_block = partial(repeat_change_block_color, k=self.sell_df_credit_day_1st["證券名稱"], color=GREEN)
         fnbs_output_df.style.applymap(green_block, subset=["證券名稱"]).applymap(blue_block, subset=["證券名稱"]).applymap(red_block, subset=["證券名稱"]).applymap(color_define, subset=["Color"]).to_excel(save_path, index=False)
 
 
-# %%
 

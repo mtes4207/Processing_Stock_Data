@@ -15,10 +15,12 @@ class DownloadDailyTransactionData:
         self._transaction_date = transaction_date
         self.save_folder = os.path.abspath(save_folder)
 
-
         if not os.path.exists(self.save_folder):
             os.mkdir(self.save_folder)
-        self.run()
+
+        self.download_credit_data()
+        self.download_fnbs_data()
+
     def download_credit_data(self):
         print("-------------------------------------------")
         for i in range(5, -1, -1):
@@ -60,10 +62,6 @@ class DownloadDailyTransactionData:
         else:
             print('%s maybe no transction data'%self._transaction_date)
         response.close()
-
-    def run(self):
-        self.download_credit_data()
-        self.download_fnbs_data()
 
 if __name__ == '__main__':
     transaction_date = '20210719'

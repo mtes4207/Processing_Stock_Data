@@ -3,6 +3,8 @@ import pandas as pd
 import os
 import csv
 from functools import partial
+import shutil
+from datetime import datetime
 
 
 RED = '#ffbfbf'
@@ -32,9 +34,13 @@ def color_define(row):
 
 class ProcessingTransectionData:
 
-    def __init__(self, csv_folder, output_path, head_num=30):
+    def __init__(self, output_path, head_num=30):
         self.processing_dictionary  = {"Credit":dict({}), "FNBS":dict({})}
-        self.processing_dict_df(csv_folder, head_num)
+        origin_data_path = os.path.join(output_path, 'Origin data')
+        if not os.path.exists(origin_data_path):
+            os.makedirs(origin_data_path)
+
+        self.processing_dict_df(origin_data_path, head_num)
         self.filter_credit_df(output_path)
         self.filter_FNBS_df(output_path)
         print('Processing Data Finish ')
@@ -76,6 +82,7 @@ class ProcessingTransectionData:
             elif "Credit" in file_name:
                 df = self.processing_Credit_data(file_path)
                 self.processing_dictionary ["Credit"][file_name.split("_")[2].strip(".csv")] = df
+
 
         if len(self.processing_dictionary ["Credit"]) != 2:
             print('Credit data no enough 2 or exceed to analyze')

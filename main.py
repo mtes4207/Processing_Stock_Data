@@ -4,10 +4,10 @@ import time
 
 
 if __name__ == '__main__':
-    folder_path = './save_folder'
-    output_path = './'
-    DownloadDailyTransactionData('20210719', folder_path)
-    DownloadDailyTransactionData('20210720', folder_path)
+    output_path = './20210726'
+    DownloadDailyTransactionData('20210727', output_path)
+    DownloadDailyTransactionData('20210726', output_path)
     time.sleep(2)
-    ProcessingTransectionData(folder_path, output_path)
+    ProcessingTransectionData(output_path)
+
 

@@ -10,13 +10,13 @@ HEADERS = {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 
 class DownloadDailyTransactionData:
 
-    def __init__(self, transaction_date, save_folder):
+    def __init__(self, transaction_date, output_path):
 
         self._transaction_date = transaction_date
-        self.save_folder = os.path.abspath(save_folder)
-
-        if not os.path.exists(self.save_folder):
-            os.mkdir(self.save_folder)
+        output_path = os.path.abspath(output_path)
+        self.origin_data_path = os.path.join(output_path, 'Origin data')
+        if not os.path.exists(self.origin_data_path):
+            os.makedirs(self.origin_data_path)
 
         self.download_credit_data()
         self.download_fnbs_data()
@@ -36,8 +36,8 @@ class DownloadDailyTransactionData:
             raise Exception(exception)
 
         if len(response.content) >10:
-            print("Save TWSE_Credit_%s.csv  in %s"%(self._transaction_date, self.save_folder))
-            with open(os.path.join(self.save_folder, "TWSE_Credit_%s.csv"%self._transaction_date), "w") as f:  # 開啟資料夾及命名圖片檔
+            print("Save TWSE_Credit_%s.csv  in %s"%(self._transaction_date, self.origin_data_path))
+            with open(os.path.join(self.origin_data_path, "TWSE_Credit_%s.csv"%self._transaction_date), "w") as f:  # 開啟資料夾及命名圖片檔
                 f.write(response.text)
         response.close()
 
@@ -56,8 +56,8 @@ class DownloadDailyTransactionData:
             raise Exception(exception)
 
         if len(response.content) >10:
-            print("Save TWSE_FNBS_%s.csv  in %s"%(self._transaction_date, self.save_folder))
-            with open(os.path.join(self.save_folder, "TWSE_FNBS_%s.csv"%self._transaction_date), "w") as f:  # 開啟資料夾及命名圖片檔
+            print("Save TWSE_FNBS_%s.csv  in %s"%(self._transaction_date, self.origin_data_path))
+            with open(os.path.join(self.origin_data_path, "TWSE_FNBS_%s.csv"%self._transaction_date), "w") as f:  # 開啟資料夾及命名圖片檔
                 f.write(response.text)
         else:
             print('%s maybe no transction data'%self._transaction_date)
@@ -65,7 +65,7 @@ class DownloadDailyTransactionData:
 
 if __name__ == '__main__':
     transaction_date = '20210719'
-    folder_path = './save_folder'
+    folder_path = './origin_data_path'
     c = DownloadDailyTransactionData(transaction_date, folder_path)
     c.run()
 

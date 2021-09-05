@@ -17,4 +17,4 @@
 
 ![This is a alt text.](https://github.com/mtes4207/Processing_Stock_Data/master/picture/Credit.jpg "投信買賣資料")
 
-![This is a alt text.](https://github.com/mtes4207/Processing_Stock_Data/master/picture/Credit.jpg "外資買賣資料")
+![This is a alt text.](https://github.com/mtes4207/Processing_Stock_Data/master/picture/FNBS.jpg "外資買賣資料")
